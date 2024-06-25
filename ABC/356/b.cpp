@@ -1,0 +1,61 @@
+#include <iostream>
+#include <stdio.h>
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include <functional>
+#include <numeric>
+#include <map>
+#include <set>
+#include <list>
+#include <queue>
+#include <stack>
+#include <deque>
+#include <bitset>
+#include <utility>
+#include <complex>
+#include <climits>
+#include <cfloat>
+#include <ctime>
+#include <iomanip>
+#include <cstdlib>
+#include <iomanip>
+
+using namespace std;
+
+int main() {
+
+    int n, m;
+    cin >> n >>  m;
+
+    vector<long long> nutrition_min(m);
+
+    vector<long long> nutrition_today(m, 0);
+
+    for (int i = 0; i < m; ++i) {
+        long long a;
+        cin >> a;
+        nutrition_min[i] = a;
+    }
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            long long a;
+            cin >> a;
+            nutrition_today[j] += a;
+        }
+    }
+
+    for (int i = 0; i < m; ++i) {
+        if (nutrition_today[i] < nutrition_min[i]) {
+            cout << "No" << endl;
+            return 0;
+        }
+    }
+
+    cout << "Yes" << endl;
+    
+    return 0;
+}
