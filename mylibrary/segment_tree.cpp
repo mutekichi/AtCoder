@@ -108,11 +108,17 @@ private:
     int identity_mapping = -1;
     
     LazyPropagationSegmentTree<S, F> st(
+        // data
         heights,
+        // operation
         [](S a, S b) { return max(a, b); },
+        // identity_operation
         identity_operation,
+        // mapping
         [](S a, F b) { return b == -1 ? a : b;},
+        // composition
         [](F a, F b) { return b == -1 ? a : b;},
+        // identity_mapping
         identity_mapping
     );
  */
