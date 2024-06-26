@@ -28,8 +28,10 @@ using namespace std;
  * 
  * @param n the number of elements
  * @param r the number of elements to choose
+ * 
+ * @note nCr n <= 64
  */
-void exhaustive_combination(int n, int r, int bitstring = 0, int depth = 0, int level = 0) {
+void exhaustive_combination(int n, int r, long long bitstring = 0, int depth = 0, int level = 0) {
     if (depth > n) {
         return;
     }
@@ -43,6 +45,6 @@ void exhaustive_combination(int n, int r, int bitstring = 0, int depth = 0, int 
         return;
     }
 
-    exhaustive_combination(n, r, bitstring | (1 << depth), depth + 1, level + 1);
+    exhaustive_combination(n, r, bitstring | (1ll << depth), depth + 1, level + 1);
     exhaustive_combination(n, r, bitstring, depth + 1, level);
 }
