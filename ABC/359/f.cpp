@@ -25,6 +25,8 @@
 
 using namespace std;
 
+
+
 class debug_cout {
 public:
     debug_cout(bool debug) : debug(debug) {}

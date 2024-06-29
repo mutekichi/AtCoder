@@ -102,6 +102,8 @@ private:
  * @param composition a composition function
  * @param identity_mapping an identity element for the mapping
  * 
+ * @link https://betrue12.hateblo.jp/entry/2020/09/23/005940
+ * 
  * @example
  * 
     int identity_operation = 0;
