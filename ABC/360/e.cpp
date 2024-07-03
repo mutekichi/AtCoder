@@ -49,40 +49,37 @@ private:
     bool debug;
 };
 
-int longest_increasing_subsequence(vector<long long> &sequence) {
-    int n = sequence.size();
-    vector<long long> dp(n, LLONG_MAX);
-
-    for (int i = 0; i < n; ++i) {
-        *lower_bound(dp.begin(), dp.end(), sequence[i]) = sequence[i];
+long long invmod(long long a, long long m) {
+    long long b = m, u = 1, v = 0;
+    while (b) {
+        long long t = a / b;
+        a -= t * b; swap(a, b);
+        u -= t * v; swap(u, v);
     }
-
-    return lower_bound(dp.begin(), dp.end(), LLONG_MAX) - dp.begin();
+    u %= m;
+    if (u < 0) u += m;
+    return u;
 }
+
+long long mod = 998244353;
 
 debug_cout dbgcout(true);
 
 int main() {
 
-    int n;
-    cin >> n;
+    long long n, k;
+    cin >> n >> k;
 
-    vector<long long> a(n, -1);
-    vector<long long> b(n - 1, -1);
-    vector<long long> c(n - 1, -1);
+    long long init = 1ll;
 
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-        if (i != 0) b[i - 1] = a[i];
-        if (i != n - 1) c[i] = a[i];
+    long long invn = invmod(n, mod);
+
+    for (int i = 0; i < k; ++i) {
+        long long bunshi = ((n + mod - 2ll) * init % mod + n + 1ll) % mod;
+        init = bunshi * invn % mod;
     }
 
-    int la = longest_increasing_subsequence(a);
-    int lb = longest_increasing_subsequence(b);
-    int lc = longest_increasing_subsequence(c);
-
-    if (la == lb && lb == lc) cout << la << endl;
-    else cout << la + 1 << endl;
+    cout << init << endl;
     
     return 0;
 }

@@ -49,6 +49,14 @@ private:
     bool debug;
 };
 
+template<typename T>
+void print_vector(vector<T> v) {
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i] << " ";
+    }
+    cout << endl;
+}
+
 debug_cout dbgcout(true);
 
 int main() {

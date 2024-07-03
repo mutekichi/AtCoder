@@ -49,15 +49,8 @@ private:
     bool debug;
 };
 
+debug_cout dbgcout(true);
 
-/**
- * @brief Segment Tree
- * 
- * @tparam T 
- * @param data vector of elements with type T
- * @param op an associative binary operation
- * @param identity an identity element for the operation
-*/
 template<typename T>
 class SegmentTree {
 public:
@@ -115,74 +108,58 @@ private:
     }
 };
 
+void print_vector(vector<int> vec) {
+    for (int i = 0; i < vec.size(); ++i) {
+        cout << vec[i] << " ";
+    }
+    cout << endl;
+}
 
-struct edge {
-    int max;
-    int index;
-};
-
-struct edge_min {
-    int min;
-    int min_index;
-};
-debug_cout dbgcout(true);
 
 int main() {
 
-    int n, q;
-    cin >> n >> q;
+    int n;
+    cin >> n;
 
-    vector<edge> data(n);
-    vector<edge_min> data_min(n);
+    vector<pair<long long, long long>> ranges(n);
+    vector<long long> existing_x;
 
     for (int i = 0; i < n; i++) {
-        int a;
-        cin >> a;
-        data[i] = edge{a, i};
-        data_min[i] = edge_min{a, i};
+        long long x, y;
+        cin >> x >> y;
+        ranges[i] = make_pair(x, y);
+        existing_x.push_back(x);
+        existing_x.push_back(y);
     }
 
-    int INF = INT_MAX;
+    sort(existing_x.begin(), existing_x.end());
+    existing_x.erase(unique(existing_x.begin(), existing_x.end()), existing_x.end());
 
-    SegmentTree<edge> st(
-        data,
-        [](edge a, edge b) {
-            return edge{max(a.max, b.max), a.max > b.max ? a.index : b.index};
-        },
-        edge{0, 0}
-    );
-
-    SegmentTree<edge_min> st_min(
-        data_min,
-        [](edge_min a, edge_min b) {
-            return edge_min{min(a.min, b.min), a.min < b.min ? a.min_index : b.min_index};
-        },
-        edge_min{INF, 0}
-    );
-
-    for (int i = 0; i < q; ++i) {
-        int left, right;
-        cin >> left >> right;
-
-        edge max_value = st.query(left, right + 1);
+    vector<pair<int, int>> compressed_ranges(n);
+    
+    for (int i = 0; i < n; ++i) {
+        long long x = ranges[i].first;
+        long long y = ranges[i].second;
+        int x_index = lower_bound(existing_x.begin(), existing_x.end(), x) - existing_x.begin();
+        int y_index = lower_bound(existing_x.begin(), existing_x.end(), y) - existing_x.begin();
         
-        if (max_value.index == left) {
-            edge_min min_value = st_min.query(left + 1, right + 1);
-            edge second_max = st.query(min_value.min_index, right + 1);
-            cout << max_value.max + min_value.min + second_max.max << endl;
-        }
+        compressed_ranges[i] = make_pair(x_index * 2, y_index * 2);
+    }
 
-        else if (max_value.index == right) {
-            edge_min min_value = st_min.query(left, right);
-            edge second_max = st.query(left, min_value.min_index);
-            cout << max_value.max + min_value.min + second_max.max << endl;
-        }
+    vector<int> firsts;
+    vector<int> seconds;
 
-        else {
-            
-        }
-
+    for (int i = 0; i < n; ++i) {
+        firsts.push_back(compressed_ranges[i].first);
+        seconds.push_back(compressed_ranges[i].second);
     }
     
-    return 0;
+    sort(firsts.begin(), firsts.end());
+    sort(seconds.begin(), seconds.end());
+
+    print_vector(firsts);
+    print_vector(seconds);
+    
+
+   return 0;
 }

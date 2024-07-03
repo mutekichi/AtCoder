@@ -49,40 +49,36 @@ private:
     bool debug;
 };
 
-int longest_increasing_subsequence(vector<long long> &sequence) {
-    int n = sequence.size();
-    vector<long long> dp(n, LLONG_MAX);
-
-    for (int i = 0; i < n; ++i) {
-        *lower_bound(dp.begin(), dp.end(), sequence[i]) = sequence[i];
-    }
-
-    return lower_bound(dp.begin(), dp.end(), LLONG_MAX) - dp.begin();
-}
-
 debug_cout dbgcout(true);
 
 int main() {
 
-    int n;
-    cin >> n;
+    string s;
+    string t;
 
-    vector<long long> a(n, -1);
-    vector<long long> b(n - 1, -1);
-    vector<long long> c(n - 1, -1);
+    cin >> s >> t;
 
-    for (int i = 0; i < n; i++) {
-        cin >> a[i];
-        if (i != 0) b[i - 1] = a[i];
-        if (i != n - 1) c[i] = a[i];
+    int lens = s.size();
+    int lent = t.size();
+
+    for (int i = 1; i < lens; ++i) {
+        for (int j = 1; j <= i; ++j) {
+            string u = "";
+            for (int k = 0; k < lens / i; ++k) {
+                u += s[k * i + j - 1];
+            }
+            int amari = lens % i;
+            if (amari >= j) {
+                u += s[lens - amari + j - 1];
+            }
+            if (u == t) {
+                cout << "Yes" << endl;
+                return 0;
+            }
+        }
     }
 
-    int la = longest_increasing_subsequence(a);
-    int lb = longest_increasing_subsequence(b);
-    int lc = longest_increasing_subsequence(c);
-
-    if (la == lb && lb == lc) cout << la << endl;
-    else cout << la + 1 << endl;
+    cout << "No" << endl;
     
     return 0;
 }

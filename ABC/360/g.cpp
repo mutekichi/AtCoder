@@ -81,8 +81,12 @@ int main() {
     int lb = longest_increasing_subsequence(b);
     int lc = longest_increasing_subsequence(c);
 
-    if (la == lb && lb == lc) cout << la << endl;
-    else cout << la + 1 << endl;
-    
+    cout << la << " " << lb << " " << lc << endl;
+
+    if (la - 1 == lb && la - 1 == lc && a[n - 1] - a[0] == la -1) cout << la << endl;
+    else {
+        if (la == n) cout << la << endl;
+        else cout << la + 1 << endl;
+    }
     return 0;
 }
