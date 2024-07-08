@@ -49,23 +49,48 @@ private:
     bool debug;
 };
 
-debug_cout dbgcout(true);
+template<typename T>
+void print_vector(vector<T> v) {
+    for (int i = 0; i < v.size(); i++) {
+        cout << v[i] << " ";
+    }
+    cout << endl;
+}
+
+debug_cout dbgcout(false);
 
 int main() {
 
-    string s;
-    cin >> s;
-    
-    int index_rice;
-    int index_miso_soup;
+    int a, b, c, d, e, f;
+    int g, h, i, j, k, l;
 
-    for (int i = 0; i < s.size(); ++i) {
-        if (s[i] == 'R') index_rice = i;
-        if (s[i] == 'M') index_miso_soup = i;
+    cin >> a >> b >> c >> d >> e >> f;
+    cin >> g >> h >> i >> j >> k >> l;
+
+    bool ok = true;
+
+    if ((a <= g && g < d) || (g <= a && a < j)) {
+        ok = true;
+    } else {
+        cout << "No" << endl;
+        return 0;
     }
 
-    if (index_rice < index_miso_soup) cout << "Yes" << endl;
-    else cout << "No" << endl;
+    if ((b <= h && h < e) || (h <= b && b < k)) {
+        ok = true;
+    } else {
+        cout << "No" << endl;
+        return 0;
+    }
+
+    if ((c <= i && i < f) || (i <= c && c < l)) {
+        ok = true;
+    }else {
+        cout << "No" << endl;
+        return 0;
+    }
+
+    cout << "Yes" << endl;
     
     return 0;
 }
