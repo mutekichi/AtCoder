@@ -160,6 +160,9 @@ int main() {
     print_vector(firsts);
     print_vector(seconds);
     
+    int point_max = max(firsts[firsts.size() - 1], seconds[seconds.size() - 1]);
+
+    vector<int> data(point_max + 1, 0);
 
    return 0;
 }
