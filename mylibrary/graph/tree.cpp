@@ -1,63 +1,8 @@
 #include <iostream>
-#include <stdio.h>
-#include <cstdio>
-#include <string>
 #include <vector>
-#include <algorithm>
-#include <iterator>
-#include <functional>
-#include <numeric>
-#include <map>
-#include <set>
-#include <list>
-#include <queue>
-#include <stack>
-#include <deque>
-#include <bitset>
-#include <utility>
-#include <complex>
-#include <climits>
-#include <cfloat>
-#include <ctime>
-#include <iomanip>
-#include <cstdlib>
-#include <assert.h>
-#include <iomanip>
 
 using namespace std;
 
-class debug_cout {
-public:
-    debug_cout(bool debug) : debug(debug) {}
-
-    template<typename T>
-    debug_cout& operator<<(const T& value) {
-        if (debug) {
-            cout << value;
-        }
-        return *this;
-    }
-
-    debug_cout& operator<<(ostream& (*manip)(ostream&)) {
-        if (debug) {
-            manip(cout);
-        }
-        return *this;
-    }
-
-private:
-    bool debug;
-};
-
-template<typename T>
-void print_vector(vector<T> v) {
-    for (int i = 0; i < v.size(); i++) {
-        cout << v[i] << " ";
-    }
-    cout << endl;
-}
-
-debug_cout dbgcout(true);
 class Tree {
 public:
     Tree(int n) : n(n) {
@@ -146,53 +91,22 @@ private:
 
 
 int main() {
+    Tree tree(11);
 
-    int n;
-    cin >> n;
-    Tree tree(n);
+    tree.add_edge(0, 1);
+    tree.add_edge(1, 2);
+    tree.add_edge(2, 3);
+    tree.add_edge(2, 4);
+    tree.add_edge(4, 5);
+    tree.add_edge(5, 6);
+    tree.add_edge(5, 7);
+    tree.add_edge(7, 8);
+    tree.add_edge(7, 9);
+    tree.add_edge(9, 10);
 
-    for (int i = 0; i < n - 1; i++) {
-        int u, v;
-        cin >> u >> v;
-        tree.add_edge(u - 1, v - 1);
-    }
+    cout << "diameter length: " << tree.diameter_length() << endl;
+    cout << "diameter nodes: " << tree.diameter_nodes().first << " " << tree.diameter_nodes().second << endl;
 
-    vector<int> centroids = tree.find_centroids();
-    int centroid = centroids[0];
 
-    
-    // cout << "centroid: " << centroid + 1 << endl;   
 
-    vector<int> dist_from_centroid(n, -1);
-
-    dist_from_centroid[centroid] = 0;
-
-    vector<int> list;
-
-    for (int node : tree.tree[centroid]) {
-        queue<int> q;
-        q.push(node);
-        dist_from_centroid[node] = 1;
-        list.push_back(node);
-        while (!q.empty()) {
-            int current = q.front();
-            q.pop();
-            for (int next : tree.tree[current]) {
-                if (dist_from_centroid[next] == -1) {
-                    dist_from_centroid[next] = dist_from_centroid[current] + 1;
-                    list.push_back(next);
-                    q.push(next);
-                }
-            }
-        }
-    }
-
-    if (n % 2 == 0) list.push_back(centroid);
-
-    // print_vector(list);
-
-    for (int i = 0; i < n / 2; ++i) {
-        cout << list[i] + 1 << " " << list[i + n / 2] + 1 << endl;
-    }
-    return 0;
 }

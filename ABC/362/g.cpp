@@ -203,9 +203,6 @@ int main() {
     for (int i = 0; i < q; ++i) {
         cout << answers[i] << endl;
     }
-
     
-    
-
     return 0;
 }
