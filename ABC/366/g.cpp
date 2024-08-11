@@ -60,6 +60,20 @@ void print_vector(vector<T> v) {
 debug_cout dbgcout(true);
 
 int main() {
+    int n, k;
+    cin >> n >> k;
 
+    vector<pair<long long, long long>> funcs(n);
+    for (int i = 0; i < n; i++) {
+        cin >> funcs[i].first >> funcs[i].second;
+    }
+
+    sort(funcs.begin(), funcs.end(), [](pair<long long, long long> a, pair<long long, long long> b) {
+        return a.first * b.second + a.second < b.first * a.second + b.second;
+    });
+
+    for (int i = 0; i < n; i++) {
+        dbgcout << funcs[i].first << " " << funcs[i].second << endl;
+    }
     return 0;
 }

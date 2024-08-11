@@ -57,9 +57,37 @@ void print_vector(vector<T> v) {
     cout << endl;
 }
 
-debug_cout dbgcout(true);
+debug_cout dbgcout(false);
 
 int main() {
+    int q;
+    cin >> q;
+
+    multiset<int> s_with_count;
+    set<int> s_species;
+
+    for (int i = 0; i < q; ++i) {
+        int t, x;
+        cin >> t;
+
+        if (t == 1) {
+            cin >> x;
+            s_with_count.insert(x);
+            s_species.insert(x);
+        } else if (t == 2) {
+            cin >> x;
+            auto it = s_with_count.find(x);
+            if (it != s_with_count.end()) {
+                s_with_count.erase(it);
+            }
+            // 全て無くなれば種類も消す
+            if (s_with_count.count(x) == 0) {
+                s_species.erase(x);
+            }
+        } else if (t == 3) {
+            cout << s_species.size() << endl;
+        }
+    }
 
     return 0;
 }

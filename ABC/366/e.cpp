@@ -60,6 +60,15 @@ void print_vector(vector<T> v) {
 debug_cout dbgcout(true);
 
 int main() {
-
+    int n, d;
+    cin >> n >> d;
+    vector<pair<int, int>> points(n);
+    for (int i = 0; i < n; i++) {
+        int x, y;
+        cin >> x >> y;
+        points[i] = make_pair(x + y, x - y);
+    }
+    
+    
     return 0;
 }
