@@ -29,41 +29,40 @@ int main() {
     cin >> h >> w;
 
     vector<vector<int>> grid(h, vector<int>(w));
-    
+
     for (int i = 0; i < h; i++) {
         for (int j = 0; j < w; j++) {
             cin >> grid[i][j];
         }
     }
-    
+
     int ans = 0;
 
-    for (int i = 0; i < (1 << h); ++i) {
-        vector<int> usable_nums;
+    for (int i = 0; i < (1 << h); i++) {
+        map<int, int> mp;
 
-        for (int j = 0; j < h; ++j) {
-            for (int k = 0; k < w; ++k) {
-                int usable_num = -1;
-                bool is_usable = true;
-                if (i & (1 << j)) {
-                    if (usable_num = -1) usable_num = grid[j][k];
-                    else if (usable_num != grid[j][k]) is_usable = false;
+        for (int j = 0; j < w; ++j) {
+            int num = -1;
+            for (int k = 0; k < h; ++k) {
+                if (i & (1 << k)) {
+                    if (num == -1) {
+                        num = grid[k][j];
+                    } else if (num != grid[k][j]) {
+                        num = -2;
+                        break;
+                    } else {
+                        continue;
+                    }
                 }
-                if (is_usable) usable_nums.push_back(usable_num);
+            }
+            if (num >= 0) {
+                mp[num]++;
             }
         }
 
-        map<int, int> usable_nums_count;
-        for (auto num: usable_nums) {
-            usable_nums_count[num]++;
+        for (auto p : mp) {
+            ans = max(ans, p.second * __builtin_popcount(i));
         }
-
-        int max_count = 0;
-        for (auto p: usable_nums_count) {
-            max_count = max(max_count, p.second);
-        }
-
-        ans = max(ans, max_count);
     }
 
     cout << ans << endl;

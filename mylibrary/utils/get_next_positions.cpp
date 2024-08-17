@@ -36,6 +36,7 @@ int get_int_from_char(char c) {
  * 
  * @return vector<vector<int>> The next positions of each character in the string. np[i][j] is the next position of character j in the string s starting from position i.
  * 
+ * @note The time complexity is O(s_length * alphabet_size).
 */
 vector<vector<int>> get_next_positions(string &s, int s_length, int alphabet_size) {
     vector<vector<int>> next_positions(s_length, vector<int>(alphabet_size, s_length));
