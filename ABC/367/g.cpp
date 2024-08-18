@@ -49,25 +49,15 @@ private:
     bool debug;
 };
 
-debug_cout dbgcout(true);
-
 template<typename T>
-void print_vector(vector<T> v, bool debug) {
+void print_vector(vector<T> v) {
     for (int i = 0; i < v.size(); i++) {
-        if (debug) {
-            dbgcout << v[i] << " ";
-        }
-        else {
-            cout << v[i] << " ";
-        }
+        cout << v[i] << " ";
     }
-    if (debug) {
-        dbgcout << endl;
-    }
-    else {
-        cout << endl;
-    }
+    cout << endl;
 }
+
+debug_cout dbgcout(true);
 
 int main() {
 

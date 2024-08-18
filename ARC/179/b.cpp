@@ -50,7 +50,7 @@ private:
 
 debug_cout dbgcout(true);
 
-long long MOD = 998244353;
+long long MOD_99 = 998244353;
 
 long long clear_bit(long long bitstring, long long position) {
     long long mask = ~(1<<position);
@@ -128,7 +128,7 @@ int main() {
                         next_state = set_bit(next_state, pos_to_be_recovered);
                     }
                     dp[i + 1][next_state] += dp[i][state];
-                    dp[i + 1][next_state] %= MOD;
+                    dp[i + 1][next_state] %= MOD_99;
                 }
             }
         }
@@ -137,7 +137,7 @@ int main() {
     long long sum = 0ll;
     for (long long state = 0ll; state < max_states; ++state) {
         sum += dp[n][state];
-        sum %= MOD;
+        sum %= MOD_99;
     }
 
     cout << sum << endl;

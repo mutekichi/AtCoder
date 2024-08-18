@@ -25,7 +25,7 @@
 
 using namespace std;
 
-long long MOD = 998244353ll;
+long long MOD_99 = 998244353ll;
 
 int main() {
 
@@ -41,7 +41,7 @@ int main() {
     }
     for (int i = 1; i < 1001; ++i) {
         for (int j = 1; j < i; ++j) {
-            combination_table[i][j] = (combination_table[i - 1][j - 1] + combination_table[i - 1][j]) % MOD;
+            combination_table[i][j] = (combination_table[i - 1][j - 1] + combination_table[i - 1][j]) % MOD_99;
         }
     }
 
@@ -66,8 +66,8 @@ int main() {
                 if (len - alphabet_added < 0) {
                     break;
                 }
-                dp[alphabet][len] += (dp[alphabet - 1][len - alphabet_added] * combination_table[len][alphabet_added]) % MOD;
-                dp[alphabet][len] %= MOD;
+                dp[alphabet][len] += (dp[alphabet - 1][len - alphabet_added] * combination_table[len][alphabet_added]) % MOD_99;
+                dp[alphabet][len] %= MOD_99;
             }
         }
     }
@@ -82,7 +82,7 @@ int main() {
     long long ans = 0ll;
     for (int len = 1; len <= k; ++len) {
         ans += dp[alphabets - 1][len];
-        ans %= MOD;
+        ans %= MOD_99;
     }
 
     cout << ans << endl;

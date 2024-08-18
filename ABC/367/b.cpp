@@ -49,27 +49,38 @@ private:
     bool debug;
 };
 
-debug_cout dbgcout(true);
-
 template<typename T>
-void print_vector(vector<T> v, bool debug) {
+void print_vector(vector<T> v) {
     for (int i = 0; i < v.size(); i++) {
-        if (debug) {
-            dbgcout << v[i] << " ";
-        }
-        else {
-            cout << v[i] << " ";
-        }
+        cout << v[i] << " ";
     }
-    if (debug) {
-        dbgcout << endl;
-    }
-    else {
-        cout << endl;
-    }
+    cout << endl;
 }
 
+debug_cout dbgcout(true);
+
 int main() {
+
+    string s;
+    cin >> s;
+
+    // "." で分割
+    string former, latter;
+
+    int dot_pos = s.find(".");
+
+    former = s.substr(0, dot_pos);
+    latter = s.substr(dot_pos + 1);
+
+    if (latter == "000") cout << former << endl;
+    else {
+        // 0を削除
+        while (latter[latter.size() - 1] == '0') {
+            latter.pop_back();
+        }
+        cout << former << "." << latter << endl;
+    }
+    
 
     return 0;
 }

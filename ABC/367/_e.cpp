@@ -49,10 +49,10 @@ private:
     bool debug;
 };
 
-debug_cout dbgcout(true);
+debug_cout dbgcout(false);
 
 template<typename T>
-void print_vector(vector<T> v, bool debug) {
+void print_vector(vector<T> v, bool debug = false) {
     for (int i = 0; i < v.size(); i++) {
         if (debug) {
             dbgcout << v[i] << " ";
@@ -70,6 +70,52 @@ void print_vector(vector<T> v, bool debug) {
 }
 
 int main() {
+
+    int n;
+    long long k;
+    cin >> n >> k;
+
+    vector<int> x(n);
+    for (int i = 0; i < n; i++) {
+        cin >> x[i];
+        x[i]--;
+    }
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    vector<vector<int>> doubling_table(60, vector<int>(n, -1));
+
+    for (int i = 0; i < n; ++i) doubling_table[0][i] = x[i];
+
+    for (int i = 1; i < 60; ++i) {
+        for (int j = 0; j < n; ++j) {
+            doubling_table[i][j] = doubling_table[i - 1][doubling_table[i - 1][j]];
+        }
+    }
+
+    vector<int> current(n);
+    for (int i = 0; i < n; ++i) {
+        current[i] = i;
+    }
+
+    for (int i = 0; i < 60; ++i) {
+        if ((k >> i) & 1ll) {
+            vector<int> next(n);
+            for (int j = 0; j < n; ++j) {
+                next[j] = doubling_table[i][current[j]];
+            }
+            current = next;
+        }
+    }
+
+    for (int i = 0; i < n; ++i) {
+        current[i] = a[current[i]];
+    }
+
+    print_vector(current);
 
     return 0;
 }

@@ -23,7 +23,7 @@
 
 using namespace std;
 
-long long MOD = 1000000007ll;
+long long MOD_99 = 1000000007ll;
 
 int main() {
 
@@ -44,7 +44,7 @@ int main() {
             if (j == 0) {
                 for (long long k = 0; k < 9; ++k) {
                     dp[i][j] += dp[i - 1][k];
-                    dp[i][j] %= MOD;
+                    dp[i][j] %= MOD_99;
                 }
             } else {
                 dp[i][j] = dp[i - 1][j - 1];
@@ -55,7 +55,7 @@ int main() {
     long long ans = 0ll;
     for (long long i = 0; i < 9; ++i) {
         ans += dp[k - 1][i];
-        ans %= MOD;
+        ans %= MOD_99;
     }
     cout << ans << endl;
     

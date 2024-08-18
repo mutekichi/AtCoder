@@ -23,7 +23,7 @@
 
 using namespace std;
 
-long long MOD = 998244353ll;
+long long MOD_99 = 998244353ll;
 
 // calc 1/a mod m
 long long inv(long long a, long long mod) {
@@ -39,7 +39,7 @@ long long inv(long long a, long long mod) {
 }
 
 long long nCr(long long n, long long r, vector<long long> &factorials, vector<long long> &inv_factorials) {
-    return factorials[n] * inv_factorials[r] % MOD * inv_factorials[n - r] % MOD;
+    return factorials[n] * inv_factorials[r] % MOD_99 * inv_factorials[n - r] % MOD_99;
 }
 
 int main() {
@@ -58,12 +58,12 @@ int main() {
 
     factorials[0] = 1ll;
     for (int i = 1; i <= max(R, max(G, B)); ++i) {
-        factorials[i] = factorials[i - 1] * i % MOD;
+        factorials[i] = factorials[i - 1] * i % MOD_99;
     }
 
-    inv_factorials[max(R, max(G, B))] = inv(factorials[max(R, max(G, B))], MOD);
+    inv_factorials[max(R, max(G, B))] = inv(factorials[max(R, max(G, B))], MOD_99);
     for (int i = max(R, max(G, B)) - 1; i >= 0; --i) {
-        inv_factorials[i] = inv_factorials[i + 1] * (i + 1) % MOD;
+        inv_factorials[i] = inv_factorials[i + 1] * (i + 1) % MOD_99;
     }
 
     long long ans = 0ll;
@@ -72,8 +72,8 @@ int main() {
         for (int g = g_min; g <= min(G, X - r); ++g) {
             int b = K - r - g;
             if (b >= 0 && b <= B) {
-                ans += nCr(R, r, factorials, inv_factorials) * nCr(G, g, factorials, inv_factorials) % MOD * nCr(B, b, factorials, inv_factorials) % MOD;
-                ans %= MOD;
+                ans += nCr(R, r, factorials, inv_factorials) * nCr(G, g, factorials, inv_factorials) % MOD_99 * nCr(B, b, factorials, inv_factorials) % MOD_99;
+                ans %= MOD_99;
             }
         }
     }

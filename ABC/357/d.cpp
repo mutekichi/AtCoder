@@ -50,7 +50,7 @@ private:
 
 debug_cout dbgcout(false);
 
-long long MOD = 998244353ll;
+long long MOD_99 = 998244353ll;
 
 long long ketasuu(long long n) {
     long long ans = 0ll;
@@ -71,9 +71,9 @@ long long pow_mod(long long base, long long exp) {
     } 
     else {
         long long half = pow_mod(base, exp / 2ll);
-        half = half * half % MOD;
+        half = half * half % MOD_99;
         if (exp % 2ll == 1ll) {
-            return base * half % MOD;
+            return base * half % MOD_99;
         } else {
             return half;
         }
@@ -93,8 +93,8 @@ long long modinv(long long a, long long m) {
 }
 
 long long div_mod(long long a, long long b) {
-    a %= MOD;
-    return a * modinv(b, MOD) % MOD;
+    a %= MOD_99;
+    return a * modinv(b, MOD_99) % MOD_99;
 }
 
 int main() {
@@ -103,7 +103,7 @@ int main() {
     cin >> n;
 
     // long long a = n * ketasuu(n);
-    long long a = n % (MOD - 1ll) * ketasuu(n);
+    long long a = n % (MOD_99 - 1ll) * ketasuu(n);
 
     dbgcout << a << endl;
 
@@ -111,11 +111,11 @@ int main() {
 
     dbgcout << b << endl;
 
-    long long c = (b + MOD - 1ll) % MOD;
+    long long c = (b + MOD_99 - 1ll) % MOD_99;
 
     dbgcout << c << endl;
 
-    long long d = n % MOD * c;
+    long long d = n % MOD_99 * c;
 
     dbgcout << d << endl;
 
@@ -123,7 +123,7 @@ int main() {
 
     dbgcout << e << endl;
 
-    long long f = (e + MOD - 1ll) % MOD;
+    long long f = (e + MOD_99 - 1ll) % MOD_99;
 
     dbgcout << f << endl;
 
