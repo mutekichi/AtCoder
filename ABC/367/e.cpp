@@ -205,7 +205,6 @@ int main() {
                 current = y[current];
                 current_index = y[current_index];
             }
-            
         }
     
         print_vector(ans);

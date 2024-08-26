@@ -19,79 +19,37 @@
 #include <climits>
 #include <cfloat>
 #include <ctime>
+#include <iomanip>
 #include <cstdlib>
+#include <assert.h>
+#include <iomanip>
 
 using namespace std;
 
-// Templates:
-// 1. Segment Tree: l.30 ~ l.94
-// 2. Lazy Propagation Segment Tree l.96 ~ l.273
-
-/**
- * @brief Segment Tree
- * 
- * @tparam T 
- * @param data vector of elements with type T
- * @param op an associative binary operation
- * @param identity an identity element for the operation
-*/
-template<typename T>
-class SegmentTree {
+class debug_cout {
 public:
-    SegmentTree(const vector<T>& data, function<T(T, T)> op, T identity)
-        : op(op), identity(identity) {
-        n = data.size();
-        size = 1;
-        while (size < n) size *= 2;
-        tree.resize(2 * size, identity);
-        build(data);
+    debug_cout(bool debug) : debug(debug) {}
+
+    template<typename T>
+    debug_cout& operator<<(const T& value) {
+        if (debug) {
+            cout << value;
+        }
+        return *this;
     }
 
-    T query(int l, int r) {
-        T result_left = identity, result_right = identity;
-        l += size;
-        r += size;
-        while (l < r) {
-            if (l & 1) result_left = op(result_left, tree[l++]);
-            if (r & 1) result_right = op(tree[--r], result_right);
-            l >>= 1;
-            r >>= 1;
+    debug_cout& operator<<(std::ostream& (*manip)(std::ostream&)) {
+        if (debug) {
+            manip(std::cout);
         }
-        return op(result_left, result_right);
-    }
-
-    void update(int p, T value) {
-        p += size;
-        tree[p] = value;
-        while (p > 1) {
-            p >>= 1;
-            tree[p] = op(tree[p * 2], tree[p * 2 + 1]);
-        }
+        return *this;
     }
 
 private:
-    int n;
-    int size;
-    vector<T> tree;
-    function<T(T, T)> op;
-    T identity;
-
-    void build(const vector<T>& data) {
-        
-        for (int i = 0; i < n; ++i) {
-            tree[size + i] = data[i];
-        }
-        
-        for (int i = n; i < size; ++i) {
-            tree[size + i] = identity;
-        }
-        
-        for (int i = size - 1; i > 0; --i) {
-            tree[i] = op(tree[i * 2], tree[i * 2 + 1]);
-        }
-    }
+    bool debug;
 };
 
+debug_cout dbgcout(true);
 
 /**
  * @brief Lazy Propagation Segment Tree 
@@ -271,3 +229,173 @@ private:
         return x;
     }
 };
+
+
+/**
+ * @brief Segment Tree
+ * 
+ * @tparam T 
+ * @param data vector of elements with type T
+ * @param op an associative binary operation
+ * @param identity an identity element for the operation
+*/
+template<typename T>
+class SegmentTree {
+public:
+    SegmentTree(const vector<T>& data, function<T(T, T)> op, T identity)
+        : op(op), identity(identity) {
+        n = data.size();
+        size = 1;
+        while (size < n) size *= 2;
+        tree.resize(2 * size, identity);
+        build(data);
+    }
+
+    T query(int l, int r) {
+        T result_left = identity, result_right = identity;
+        l += size;
+        r += size;
+        while (l < r) {
+            if (l & 1) result_left = op(result_left, tree[l++]);
+            if (r & 1) result_right = op(tree[--r], result_right);
+            l >>= 1;
+            r >>= 1;
+        }
+        return op(result_left, result_right);
+    }
+
+    void update(int p, T value) {
+        p += size;
+        tree[p] = value;
+        while (p > 1) {
+            p >>= 1;
+            tree[p] = op(tree[p * 2], tree[p * 2 + 1]);
+        }
+    }
+
+private:
+    int n;
+    int size;
+    vector<T> tree;
+    function<T(T, T)> op;
+    T identity;
+
+    void build(const vector<T>& data) {
+        
+        for (int i = 0; i < n; ++i) {
+            tree[size + i] = data[i];
+        }
+        
+        for (int i = n; i < size; ++i) {
+            tree[size + i] = identity;
+        }
+        
+        for (int i = size - 1; i > 0; --i) {
+            tree[i] = op(tree[i * 2], tree[i * 2 + 1]);
+        }
+    }
+};
+
+
+template<typename T>
+void print_vector(vector<T> v, bool debug) {
+    for (int i = 0; i < v.size(); i++) {
+        if (debug) {
+            dbgcout << v[i] << " ";
+        }
+        else {
+            cout << v[i] << " ";
+        }
+    }
+    if (debug) {
+        dbgcout << endl;
+    }
+    else {
+        cout << endl;
+    }
+}
+
+double DOUBLE_MAX = 1e12;
+
+double calc(pair<long long, long long> a) {
+    if (a.second == 1ll) return DOUBLE_MAX;
+    else {
+        return (double)a.first / (double)(a.second - 1ll);
+    }
+}
+
+int main() {
+
+    int n;
+    cin >> n;
+
+    vector<long long> a(n);
+    vector<long long> b(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    for (int i = 0; i < n; i++) {
+        cin >> b[i];
+    }
+
+    vector<double> c(n);
+    for (int i = 0; i < n; i++) {
+        c[i] = calc(make_pair(a[i], b[i]));
+    }
+
+    SegmentTree<long long> st_mul(
+        b,
+        [](long long a, long long b) { return a * b; },
+        1ll
+    );
+
+    SegmentTree<double> st_min(
+        c,
+        [](double a, double b) { return min(a, b); },
+        DOUBLE_MAX
+    );
+    
+    int q;
+    cin >> q;
+    for (int i = 0; i < q; i++) {
+        int type;
+        cin >> type;
+        if (type == 3) {
+            int l, r;
+            cin >> l >> r;
+            long long init = a[l - 1];
+            while(l < r && init > st_min.query(l, r)) {
+                if (init < calc(make_pair(a[l], b[l]))) {
+                    init += a[l];
+                    l++;
+                } else {
+                    init *= b[l];
+                    l++;
+                }
+            }
+            if (l == r) cout << init << endl;
+            else cout << init * st_mul.query(l, r) << endl;
+        }
+        else {
+            int i;
+            cin >> i;
+            i--;
+            long long x;
+            cin >> x;
+            if (type == 1) {
+                a[i] = x;
+                st_min.update(i, calc(make_pair(a[i], b[i])));
+                // dbgcout << "a[i]: " << a[i] << endl
+            } else if (type == 2) {
+                b[i] = x;
+                st_mul.update(i, b[i]);
+                st_min.update(i, calc(make_pair(a[i], b[i])));
+                // dbgcout << "b[i]: " << b[i] << endl;
+            }
+        }
+    }
+
+
+    return 0;
+}
