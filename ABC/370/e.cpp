@@ -71,17 +71,28 @@ void print_vector(vector<T> v, bool debug) {
 
 int main() {
 
-    int a,b ;
-    cin >> a >> b;
+    long long n, k;
+    cin >> n >> k;
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
-        } else {
-            cout << 2 << endl;
+    vector<long long> a(n);
+
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+
+    vector<long long> accum_sum(n + 1, 0);
+
+    for (int i = 0; i < n; ++i) {
+        accum_sum[i + 1] = accum_sum[i] + a[i];
+    }
+
+    vector<vector<long long>> dp(n + 1, vector<long long>(n + 1, 0));
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            if ()
         }
-    } 
-
+    }
+    
     return 0;
 }

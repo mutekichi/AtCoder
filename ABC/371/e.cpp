@@ -71,17 +71,44 @@ void print_vector(vector<T> v, bool debug) {
 
 int main() {
 
-    int a,b ;
-    cin >> a >> b;
+    int n;
+    cin >> n;
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
-        } else {
-            cout << 2 << endl;
-        }
-    } 
+    vector<long long> x(n);
+    vector<long long> p(n);
+
+    for (int i = 0; i < n; ++i) {
+        cin >> x[i];
+        cin >> p[i];
+    }
+
+    vector<pair<long long, int>> sorted_x(n);
+    for (int i = 0; i < n; ++i) {
+        sorted_x[i] = make_pair(x[i], i);
+    }
+
+    sort(sorted_x.begin(), sorted_x.end());
+
+    vector<long long> accum_sum(n + 1, 0);
+    for (int i = 0; i < n; ++i) {
+        accum_sum[i + 1] = accum_sum[i] + p[i];
+    }
+
+    int q;
+    cin >> q;
+
+    for (int i = 0; i < n; ++i) {
+        long long l, r;
+        cin >> l >> r;
+
+        int left = lower_bound(sorted_x.begin(), sorted_x.end(), make_pair(l, -1)) - sorted_x.begin();
+        int right = upper_bound(sorted_x.begin(), sorted_x.end(), make_pair(r, LLONG_MAX)) - sorted_x.begin();
+
+        int left_index = sorted_x[left].second;
+        int right_index = sorted_x[right].second;
+
+        cout << accum_sum[right] - accum_sum[left] << endl;
+    }
 
     return 0;
 }

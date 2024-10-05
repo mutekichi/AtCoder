@@ -71,17 +71,16 @@ void print_vector(vector<T> v, bool debug) {
 
 int main() {
 
-    int a,b ;
-    cin >> a >> b;
+    int l, r;
+    cin >> l >> r;
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
-        } else {
-            cout << 2 << endl;
-        }
-    } 
+    if (l == 1 && r == 0) {
+        cout << "Yes" << endl;
+    } else if (l == 0 && r == 1) {
+        cout << "No" << endl;
+    } else {
+        cout << "Invalid" << endl;
+    }
 
     return 0;
 }

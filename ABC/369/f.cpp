@@ -69,19 +69,53 @@ void print_vector(vector<T> v, bool debug) {
     }
 }
 
+
+template <typename T>
+void longest_increasing_subsequence(
+    vector<T> &sequence,
+    vector<T> &lis,
+    int &lis_length
+) {
+    int n = sequence.size();
+    vector<int> dp(n, INT_MAX);
+    vector<int> index(n);
+    lis_length = 0;
+
+    for (int i = 0; i < n; ++i) {
+        index[i] = lower_bound(dp.begin(), dp.end(), sequence[i]) - dp.begin();
+        dp[index[i]] = sequence[i];
+        lis_length = max(lis_length, index[i] + 1);
+    }
+
+    lis.resize(lis_length);
+    for (int i = n - 1; i >= 0; --i) {
+        if (index[i] == lis_length - 1) {
+            lis[--lis_length] = sequence[i];
+        }
+    }
+}
+
 int main() {
 
-    int a,b ;
-    cin >> a >> b;
+    int n;
+    cin >> n;
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
-        } else {
-            cout << 2 << endl;
-        }
-    } 
+    vector<long long> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+
+    int lis_length;
+    vector<long long> lis;
+
+    longest_increasing_subsequence(a, lis, lis_length);
+
+    cout << lis_length << endl;
+
+    for (int i = 0; i < lis_length; ++i) {
+        cout << lis[i] << " ";
+    }
+    cout << endl;
 
     return 0;
 }

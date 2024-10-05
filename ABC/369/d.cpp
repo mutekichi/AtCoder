@@ -69,19 +69,30 @@ void print_vector(vector<T> v, bool debug) {
     }
 }
 
+long long INF_MINUS_MAX = -9223372036854775807ll;
+
 int main() {
 
-    int a,b ;
-    cin >> a >> b;
+    int n;
+    cin >> n;
+    vector<long long> a(n);
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
-        } else {
-            cout << 2 << endl;
-        }
-    } 
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+
+    long long ans = 0;
+
+    vector<vector<long long>> dp(n + 1, vector<long long>(2, INF_MINUS_MAX));
+
+    dp[0][0] = 0;
+
+    for (int i = 1; i < n + 1; ++i) {
+        dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + 2ll * a[i - 1]);
+        dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] + a[i - 1]);
+    }
+
+    cout << max(dp[n][0], dp[n][1]) << endl;
 
     return 0;
 }

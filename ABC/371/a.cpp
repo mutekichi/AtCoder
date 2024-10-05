@@ -71,17 +71,22 @@ void print_vector(vector<T> v, bool debug) {
 
 int main() {
 
-    int a,b ;
-    cin >> a >> b;
+    char s1, s2, s3;
+    cin >> s1 >> s2 >> s3;
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
-        } else {
-            cout << 2 << endl;
-        }
-    } 
+    if (s1 == '<' && s3 == '<') {
+        cout << "B" << endl;
+    } else if (s1 == '>' && s3 == '>') {
+        cout << "B" << endl;
+    } else if (s2 == '<' && s3 == '>') {
+        cout << "C" << endl;
+    } else if (s2 == '>' && s3 == '<') {
+        cout << "C" << endl;
+    } else if (s1 == '<' && s2 == '>') {
+        cout << "A" << endl;
+    } else if (s1 == '>' && s2 == '<') {
+        cout << "A" << endl;
+    }
 
     return 0;
 }

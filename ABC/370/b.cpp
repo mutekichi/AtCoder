@@ -71,17 +71,29 @@ void print_vector(vector<T> v, bool debug) {
 
 int main() {
 
-    int a,b ;
-    cin >> a >> b;
+    int n;
+    cin >> n;
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
-        } else {
-            cout << 2 << endl;
+    vector<vector<int>> a(n, vector<int>(n));
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j <= i; ++j) {
+            cin >> a[i][j];
+            a[i][j]--;
         }
-    } 
+    }
+
+    int cur = 0;
+
+    for (int i = 0; i < n; ++i) {
+        if (cur >= i) {
+            cur = a[cur][i];
+        } else {
+            cur = a[i][cur];
+        }
+    }
+
+    cout << cur + 1 << endl;
 
     return 0;
 }

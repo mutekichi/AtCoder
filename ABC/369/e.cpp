@@ -69,19 +69,42 @@ void print_vector(vector<T> v, bool debug) {
     }
 }
 
+struct point {
+    int x, y;
+};
+
 int main() {
+    
+    int n;
+    cin >> n;
 
-    int a,b ;
-    cin >> a >> b;
+    vector<point> points(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> points[i].x >> points[i].y;
+    }
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
+    sort(points.begin(), points.end(), [](point a, point b) {
+        if (a.x == b.x) {
+            return a.y < b.y;
         } else {
-            cout << 2 << endl;
+            return a.x < b.x;
         }
-    } 
+    });
+
+    for (int i = 0; i < n; ++i) {
+        cout << points[i].x << " " << points[i].y << endl;
+    }
+    return 0;
+
+    stack<pair<point, int>> s; // point, depth
+    s.push(make_pair(points[0], 1));
+
+    int max_depth = 0;
+
+    while (!s.empty()) {
+        pair<point, int> p = s.top();
+        s.pop();
+    }
 
     return 0;
 }

@@ -71,17 +71,53 @@ void print_vector(vector<T> v, bool debug) {
 
 int main() {
 
-    int a,b ;
-    cin >> a >> b;
-
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
+    int n;
+    cin >> n;
+    vector<int> L, R;
+    for (int i = 0; i < n; ++i) {
+        int a;
+        char c;
+        cin >> a >> c;
+        if (c == 'L') {
+            L.push_back(a);
         } else {
-            cout << 2 << endl;
+            R.push_back(a);
         }
-    } 
+    }
+
+    int ans_l = INT_MAX;
+    if (L.size() == 0) {
+        ans_l = 0;
+    }
+    else {
+        for (int i = 1; i <= 100; ++i) {
+            int value = 0;
+            int current_pos = L[0];
+            for (int j = 0; j < L.size(); ++j) {
+                value += abs(L[j] - current_pos);
+                current_pos = L[j];
+            }
+            ans_l = min(ans_l, value);
+        }
+    }
+
+    int ans_r = INT_MAX;
+    if (R.size() == 0) {
+        ans_r = 0;
+    }
+    else {
+        for (int i = 1; i <= 100; ++i) {
+            int value = 0;
+            int current_pos = R[0];
+            for (int j = 0; j < R.size(); ++j) {
+                value += abs(R[j] - current_pos);
+                current_pos = R[j];
+            }
+            ans_r = min(ans_r, value);
+        }
+    }
+
+    cout << ans_l + ans_r << endl;
 
     return 0;
 }

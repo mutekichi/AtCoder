@@ -71,17 +71,36 @@ void print_vector(vector<T> v, bool debug) {
 
 int main() {
 
-    int a,b ;
-    cin >> a >> b;
+    string s, t;
+    cin >> s >> t;
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
-        } else {
-            cout << 2 << endl;
+    int len = s.size();
+
+    vector<int> a, b;
+
+    for (int i = 0; i < len; ++i) {
+        if (s[i] != t[i]) {
+            if (s[i] < t[i]) {
+                a.push_back(i);
+            } else {
+                b.push_back(i);
+            }
         }
-    } 
+    }
+
+    string current = s;
+
+    cout << a.size() + b.size() << endl;
+
+    for (int i = 0; i < b.size(); ++i) {
+        current[b[i]] = t[b[i]];
+        cout << current << endl;
+    }
+
+    for (int i = a.size() - 1; i >= 0; --i) {
+        current[a[i]] = t[a[i]];
+        cout << current << endl;
+    }
 
     return 0;
 }

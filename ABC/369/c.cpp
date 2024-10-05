@@ -71,17 +71,37 @@ void print_vector(vector<T> v, bool debug) {
 
 int main() {
 
-    int a,b ;
-    cin >> a >> b;
+    int n;
+    cin >> n;
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
+    vector<long long> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+
+    long long ans = 0;
+    ans += n;
+
+    vector<long long> diffs(n - 1);
+    for (int i = 0; i < n - 1; ++i) {
+        diffs[i] = a[i + 1] - a[i];
+    }
+
+    // cout arithmetic progression
+    int current_diff = diffs[0];
+    int current_count = 0;
+    for (int i = 0; i < n - 1; ++i) {
+        if (diffs[i] == current_diff) {
+            current_count++;
         } else {
-            cout << 2 << endl;
+            ans += current_count * (current_count + 1ll) / 2ll;
+            current_diff = diffs[i];
+            current_count = 1ll;
         }
-    } 
+    }
+
+    ans += current_count * (current_count + 1ll) / 2ll;
+    cout << ans << endl;
 
     return 0;
 }

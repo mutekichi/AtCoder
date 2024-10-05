@@ -70,18 +70,27 @@ void print_vector(vector<T> v, bool debug) {
 }
 
 int main() {
+    
+    int n, m;
+    cin >> n >> m;
 
-    int a,b ;
-    cin >> a >> b;
+    vector<bool> is_taro(n, false);
 
-    if (a == b) cout << 1 << endl;
-    else {
-        if (a - b % 2 == 0) {
-            cout << 3 << endl;
+    for (int i = 0; i < m; ++i) {
+        int a;
+        string b;
+
+        cin >> a >> b;
+
+        a--;
+
+        if (!is_taro[a] && b == "M") {
+            cout << "Yes" << endl;
+            is_taro[a] = true;
         } else {
-            cout << 2 << endl;
+            cout << "No" << endl;
         }
-    } 
+    }
 
     return 0;
 }
