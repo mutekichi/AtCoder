@@ -71,28 +71,67 @@ void output_vector(vector<T> v, bool debug) {
 
 int main() {
 
-    long long n, k;
-    cin >> n >> k;
+    long long n, m, k;
+    cin >> n >> m >> k;
 
     vector<long long> a(n);
+    vector<pair<long long, int>> ans(n);
 
-    for (int i = 0; i < n; ++i) {
+    for (long long i = 0; i < n; i++) {
         cin >> a[i];
+        ans[i].first = a[i];
+        ans[i].second = i;
+        k -= a[i];
     }
 
-    vector<long long> accum_sum(n + 1, 0);
+    dbgcout << "k: " << k << endl;
 
-    for (int i = 0; i < n; ++i) {
-        accum_sum[i + 1] = accum_sum[i] + a[i];
+    sort(a.begin(), a.end());
+    sort(ans.begin(), ans.end());
+
+    long long top_sum_m1 = 0;
+
+    for (int i = 0; i < m - 1; ++i) {
+        top_sum_m1 += a[n - 1 - i];
     }
 
-    vector<vector<long long>> dp(n + 1, vector<long long>(n + 1, 0));
+    long long top_sum_m = top_sum_m1 + a[n - m];
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < i; ++j) {
-            if ()
+    // vector<long long> ans(n);
+
+    for (int i = 0; i < n - m + 1; ++i) {
+        long long sum = top_sum_m1 + a[n - m - i] + k;
+        long long needed = sum / m;
+        if (sum % m != 0) {
+            needed++;
+        }
+        if (needed >= a[n - 1]) {
+            ans[i].first = needed - a[n - m - i];
+        } else {
+            ans[i].first = -1;
         }
     }
-    
+    long long needed = (top_sum_m + k) / m;
+    if ((top_sum_m + k) % m != 0) {
+        needed++;
+    }
+
+    for (int i = n - m + 1; i < n; ++i) {
+        if (needed >= a[n - 1]) {
+            ans[i].first = needed - a[n - m - i];
+        } else {
+            ans[i].first = -1;
+        }
+    }
+
+    sort(ans.begin(), ans.end(), [](pair<long long, int> a, pair<long long, int> b) {
+        return a.second < b.second;
+    });
+
+    for (int i = 0; i < n; ++i) {
+        cout << ans[i].first << " ";
+    }
+    cout << endl;
+
     return 0;
 }

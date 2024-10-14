@@ -52,7 +52,7 @@ private:
 debug_cout dbgcout(true);
 
 template<typename T>
-void print_vector(vector<T> v, bool debug) {
+void output_vector(vector<T> v, bool debug) {
     for (int i = 0; i < v.size(); i++) {
         if (debug) {
             dbgcout << v[i] << " ";
@@ -116,7 +116,7 @@ int main() {
     }
 
     for (int i = 0; i < n; ++i) {
-        print_vector(score[i], true);
+        output_vector(score[i], true);
     }
 
     vector<int> perm(n);

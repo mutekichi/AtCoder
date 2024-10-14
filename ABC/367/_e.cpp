@@ -52,7 +52,7 @@ private:
 debug_cout dbgcout(false);
 
 template<typename T>
-void print_vector(vector<T> v, bool debug = false) {
+void output_vector(vector<T> v, bool debug = false) {
     for (int i = 0; i < v.size(); i++) {
         if (debug) {
             dbgcout << v[i] << " ";
@@ -115,7 +115,7 @@ int main() {
         current[i] = a[current[i]];
     }
 
-    print_vector(current);
+    output_vector(current);
 
     return 0;
 }

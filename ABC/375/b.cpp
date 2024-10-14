@@ -69,42 +69,30 @@ void output_vector(vector<T> v, bool debug) {
     }
 }
 
-struct point {
-    int x, y;
-};
+long double dist(pair<long long, long long> a, pair<long long, long long> b) {
+    return sqrt((a.first - b.first) * (a.first - b.first) + (a.second - b.second) * (a.second - b.second));
+}
 
 int main() {
-    
+
     int n;
     cin >> n;
 
-    vector<point> points(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> points[i].x >> points[i].y;
+    vector<pair<long long, long long>> p(n + 1);
+    p[0] = make_pair(0, 0);
+
+    for (int i = 0; i < n; i++) {
+        cin >> p[i + 1].first >> p[i + 1].second;
     }
 
-    sort(points.begin(), points.end(), [](point a, point b) {
-        if (a.x == b.x) {
-            return a.y < b.y;
-        } else {
-            return a.x < b.x;
-        }
-    });
-
-    for (int i = 0; i < n; ++i) {
-        cout << points[i].x << " " << points[i].y << endl;
+    long double ans = 0;
+    for (int i = 0; i < n; i++) {
+        ans += dist(p[i], p[i + 1]);
     }
-    return 0;
 
-    stack<pair<point, int>> s; // point, depth
-    s.push(make_pair(points[0], 1));
+    ans += dist(p[n], p[0]);
 
-    int max_depth = 0;
-
-    while (!s.empty()) {
-        pair<point, int> p = s.top();
-        s.pop();
-    }
+    cout << fixed << setprecision(10) << ans << endl;
 
     return 0;
 }

@@ -52,7 +52,7 @@ private:
 debug_cout dbgcout(true);
 
 template<typename T>
-void print_vector(vector<T> v, bool debug) {
+void output_vector(vector<T> v, bool debug) {
     for (long long i = 0; i < v.size(); i++) {
         if (debug) {
             dbgcout << v[i] << " ";
@@ -73,47 +73,29 @@ struct Machine {
     long long count, cost;
 };
 
-long long calc_min_cost(long long count1, long long cost1, long long count2, long long cost2, long long target_count) {
-    long long total_cost = LLONG_MAX;
+long long calc_cost(Machine m1, Machine m2, long long quantity) {
+    long long min_cost = LLONG_MAX;
 
-    int larger_count, larger_cost, smaller_count, smaller_cost;
-    if (count1 > count2) {
-        larger_count = count1;
-        larger_cost = cost1;
-        smaller_count = count2;
-        smaller_cost = cost2;
-    }
-    else {
-        larger_count = count2;
-        larger_cost = cost2;
-        smaller_count = count1;
-        smaller_cost = cost1;
+    // if m2 is "cheaper" than m1, swap them
+    // so that m1 is always cheaper than m2
+    if (m2.count * m1.cost > m1.count * m2.cost) {
+        swap(m1, m2);
     }
 
-    for (long long num_larger = 0; num_larger * larger_count <= target_count; num_larger++) {
-        long long num_smaller = (target_count - num_larger * larger_count) / smaller_count;
-        
-        if (num_larger * larger_count + num_smaller * smaller_count < target_count) {
-            num_smaller++;
+    // search the number of machines 2 to buy
+    // the number is proved to be less than m1.count
+    for (long long i = 0; i <= m1.count; i++) {
+        long long num = i * m2.count;
+        long long left = quantity - num;
+        long long x1_count = left / m1.count;
+        if (left % m1.count != 0) {
+            x1_count++;
         }
-
-        long long cost = num_larger * larger_cost + num_smaller * smaller_cost;
-
-
-        long long total_cost = min(cost, total_cost);
+        long long cost = i * m2.cost + x1_count * m1.cost;
+        min_cost = min(min_cost, cost);
     }
 
-    return total_cost;
-}
-
-bool check_achievable(long long n, long long x, vector<pair<Machine, Machine>> &machines, long long target_count) {
-    long long total_cost = 0;
-    for (long long i = 0; i < n; i++) {
-        long long cost = calc_min_cost(machines[i].first.count, machines[i].first.cost, machines[i].second.count, machines[i].second.cost, target_count);
-        total_cost += cost;
-    }
-
-    return total_cost <= x;
+    return min_cost;
 }
 
 int main() {
@@ -127,7 +109,26 @@ int main() {
         cin >> machines[i].first.count >> machines[i].first.cost >> machines[i].second.count >> machines[i].second.cost;
     }
     
+    
+    long long left = -1ll, right = (long long)1e9 + 100ll;
 
+    while(right - left > 1) {
+        long long mid = (left + right) / 2;
+        long long cost = 0;
+        
+        for (long long i = 0; i < n; ++i) {
+            cost += calc_cost(machines[i].first, machines[i].second, mid);
+        }
+
+        if (cost <= x) {
+            right = mid;
+        }
+        else {
+            left = mid;
+        }
+    }
+
+    cout << right << endl;
 
     return 0;
 }

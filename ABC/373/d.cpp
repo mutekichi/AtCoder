@@ -69,41 +69,54 @@ void output_vector(vector<T> v, bool debug) {
     }
 }
 
-struct point {
-    int x, y;
-};
-
 int main() {
-    
-    int n;
-    cin >> n;
 
-    vector<point> points(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> points[i].x >> points[i].y;
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<pair<int, long long>>> g(n);
+
+    for (int i = 0; i < m; ++i) {
+        int from, to;
+        long long cost;
+        cin >> from >> to >> cost;
+        --from; --to;
+        g[from].push_back({to, cost});
+        g[to].push_back({from, -cost});
     }
 
-    sort(points.begin(), points.end(), [](point a, point b) {
-        if (a.x == b.x) {
-            return a.y < b.y;
-        } else {
-            return a.x < b.x;
+    vector<long long> dist(n, LLONG_MAX);
+
+    for (int i = 0; i < n; ++i) {
+        if (dist[i] != LLONG_MAX) {
+            continue;
         }
-    });
+
+        queue<int> q;
+        q.push(i);
+        dist[i] = 0;
+
+        while (!q.empty()) {
+            int v = q.front();
+            q.pop();
+
+            for (auto [to, cost] : g[v]) {
+                if (dist[to] == LLONG_MAX) {
+                    dist[to] = dist[v] + cost;
+                    q.push(to);
+                }
+                else {
+                    if (dist[to] != dist[v] + cost) {
+                        cout << "No" << endl;
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
 
     for (int i = 0; i < n; ++i) {
-        cout << points[i].x << " " << points[i].y << endl;
-    }
-    return 0;
-
-    stack<pair<point, int>> s; // point, depth
-    s.push(make_pair(points[0], 1));
-
-    int max_depth = 0;
-
-    while (!s.empty()) {
-        pair<point, int> p = s.top();
-        s.pop();
+        dbgcout << dist[i] << " ";
     }
 
     return 0;

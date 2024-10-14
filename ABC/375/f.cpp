@@ -69,41 +69,51 @@ void output_vector(vector<T> v, bool debug) {
     }
 }
 
-struct point {
-    int x, y;
-};
+struct query {
+    
+}
 
 int main() {
-    
-    int n;
-    cin >> n;
 
-    vector<point> points(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> points[i].x >> points[i].y;
+    int n, m, q;
+    cin >> n >> m >> q;
+
+    vector<vector<pair<long long, int>>> graph(
+        n, vector<pair<long long, int>>()
+    );
+
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        long long w;
+        cin >> u >> v >> w;
+        --u;
+        --v;
+        graph[u].push_back(make_pair(w, v));
+        graph[v].push_back(make_pair(w, u));
     }
 
-    sort(points.begin(), points.end(), [](point a, point b) {
-        if (a.x == b.x) {
-            return a.y < b.y;
-        } else {
-            return a.x < b.x;
+
+
+    vector<vector<long long>> dist(
+        n, vector<long long>(n, LLONG_MAX)
+    );
+
+    for (int i = 0; i < n; ++i) {
+        dist[i][i] = 0;
+        for (const auto &edge : graph[i]) {
+            dist[i][edge.second] = edge.first;
         }
-    });
-
-    for (int i = 0; i < n; ++i) {
-        cout << points[i].x << " " << points[i].y << endl;
     }
-    return 0;
 
-    stack<pair<point, int>> s; // point, depth
-    s.push(make_pair(points[0], 1));
-
-    int max_depth = 0;
-
-    while (!s.empty()) {
-        pair<point, int> p = s.top();
-        s.pop();
+    for (int k = 0; k < n; ++k) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (dist[i][k] == LLONG_MAX || dist[k][j] == LLONG_MAX) {
+                    continue;
+                }
+                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+            }
+        }
     }
 
     return 0;

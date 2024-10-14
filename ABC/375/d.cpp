@@ -53,7 +53,7 @@ debug_cout dbgcout(true);
 
 template<typename T>
 void output_vector(vector<T> v, bool debug) {
-    for (int i = 0; i < v.size(); i++) {
+    for (long long i = 0; i < v.size(); i++) {
         if (debug) {
             dbgcout << v[i] << " ";
         }
@@ -69,42 +69,36 @@ void output_vector(vector<T> v, bool debug) {
     }
 }
 
-struct point {
-    int x, y;
-};
-
 int main() {
-    
-    int n;
-    cin >> n;
 
-    vector<point> points(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> points[i].x >> points[i].y;
+    string s;
+    cin >> s;
+
+    vector<vector<long long>> v(26, vector<long long>());
+    vector<long long> counts(26, 0);
+    vector<long long> to_add(26, 0);
+
+    for (long long i = 0; i < s.size(); i++) {
+        v[s[i] - 'A'].push_back(i);
     }
 
-    sort(points.begin(), points.end(), [](point a, point b) {
-        if (a.x == b.x) {
-            return a.y < b.y;
-        } else {
-            return a.x < b.x;
+    long long ans = 0;
+
+    for (long long i = 0; i < s.size(); ++i) {
+        long long c = s[i] - 'A';
+        for (long long j = 0; j < 26; ++j) {
+            if (j == c) {
+                counts[j]++;
+                ans += to_add[j];
+                to_add[j] += counts[j] - 1;
+            } else {
+                to_add[j] += counts[j];
+            }
         }
-    });
-
-    for (int i = 0; i < n; ++i) {
-        cout << points[i].x << " " << points[i].y << endl;
+        // cout << ans << endl;
     }
-    return 0;
 
-    stack<pair<point, int>> s; // point, depth
-    s.push(make_pair(points[0], 1));
-
-    int max_depth = 0;
-
-    while (!s.empty()) {
-        pair<point, int> p = s.top();
-        s.pop();
-    }
+    cout << ans << endl;
 
     return 0;
 }

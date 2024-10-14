@@ -52,7 +52,7 @@ private:
 debug_cout dbgcout(true);
 
 template<typename T>
-void print_vector(vector<T> v, bool debug) {
+void output_vector(vector<T> v, bool debug) {
     for (int i = 0; i < v.size(); i++) {
         if (debug) {
             dbgcout << v[i] << " ";
@@ -80,7 +80,7 @@ int main() {
         for (int i = 0; i < k; ++i) {
             a[i] = 1;
         }
-        print_vector(a, false);
+        output_vector(a, false);
         return 0;
     }
 
@@ -96,7 +96,7 @@ int main() {
                 index++;
             }   
         }
-        print_vector(a, false);
+        output_vector(a, false);
         return 0;
     }
     else {
@@ -118,7 +118,7 @@ int main() {
                 index++;
             }
         }
-        print_vector(a, false);
+        output_vector(a, false);
         return 0;
     }
 

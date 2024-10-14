@@ -69,42 +69,22 @@ void output_vector(vector<T> v, bool debug) {
     }
 }
 
-struct point {
-    int x, y;
-};
-
 int main() {
-    
+
     int n;
     cin >> n;
+    string s;
+    cin >> s;
 
-    vector<point> points(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> points[i].x >> points[i].y;
-    }
+    long long ans = 0;
 
-    sort(points.begin(), points.end(), [](point a, point b) {
-        if (a.x == b.x) {
-            return a.y < b.y;
-        } else {
-            return a.x < b.x;
+    for (int i = 0; i < n - 2; ++i) {
+        if (s[i] == '#' && s[i + 1] == '.' && s[i + 2] == '#') {
+            ++ans;
         }
-    });
-
-    for (int i = 0; i < n; ++i) {
-        cout << points[i].x << " " << points[i].y << endl;
     }
-    return 0;
 
-    stack<pair<point, int>> s; // point, depth
-    s.push(make_pair(points[0], 1));
-
-    int max_depth = 0;
-
-    while (!s.empty()) {
-        pair<point, int> p = s.top();
-        s.pop();
-    }
+    cout << ans << endl;
 
     return 0;
 }
