@@ -24,5 +24,5 @@ if (-not (Test-Path -Path "./bin")) {
 }
 
 # Compile the cpp file to the exe file
-$compileCommand = "g++ -o $outputExePath $cppFilePath"
+$compileCommand = "g++ -std=c++14 -o $outputExePath $cppFilePath"
 Invoke-Expression $compileCommand

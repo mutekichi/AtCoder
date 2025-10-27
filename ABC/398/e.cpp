@@ -22,80 +22,54 @@
 #include <iomanip>
 #include <cstdlib>
 #include <assert.h>
+#include <iomanip>
 
 using namespace std;
 
-class debug_cout
-{
+class debug_cout {
 public:
     debug_cout(bool debug) : debug(debug) {}
 
-    template <typename T>
-    debug_cout &operator<<(const T &value)
-    {
-        if (debug)
-        {
+    template<typename T>
+    debug_cout& operator<<(const T& value) {
+        if (debug) {
             cout << value;
         }
         return *this;
     }
 
-    debug_cout &operator<<(std::ostream &(*manip)(std::ostream &))
-    {
-        if (debug)
-        {
+    debug_cout& operator<<(std::ostream& (*manip)(std::ostream&)) {
+        if (debug) {
             manip(std::cout);
         }
         return *this;
     }
 
-    void incr()
-    {
-        if (debug)
-        {
-            debug_loop_counter++;
-            if (debug_loop_counter >= MAX_DEBUG_LOOPS)
-            {
-                std::cout << "Debug exit: Loop limit (" << MAX_DEBUG_LOOPS << ") reached." << std::endl;
-                exit(0);
-            }
-        }
-    }
-
 private:
     bool debug;
-    int debug_loop_counter = 0;
-    const int MAX_DEBUG_LOOPS = 10;
 };
 
 debug_cout dbgcout(true);
 
-template <typename T>
-void output_vector(vector<T> v, bool debug)
-{
-    for (int i = 0; i < v.size(); i++)
-    {
-        if (debug)
-        {
+template<typename T>
+void output_vector(vector<T> v, bool debug) {
+    for (int i = 0; i < v.size(); i++) {
+        if (debug) {
             dbgcout << v[i] << " ";
         }
-        else
-        {
+        else {
             cout << v[i] << " ";
         }
     }
-    if (debug)
-    {
+    if (debug) {
         dbgcout << endl;
     }
-    else
-    {
+    else {
         cout << endl;
     }
 }
 
-int main()
-{
+int main() {
 
     return 0;
 }
