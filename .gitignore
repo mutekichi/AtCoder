@@ -1,5 +1,24 @@
-# Ignore all files in bin directory
-bin/
+# --- Rust ---
+# Cargoのビルド成果物（サイズが大きいため必ず除外）
+rust/target/
+# バックアップファイル等
+**/*.rs.bk
 
-# Ignore all files in test directory
-test/
+# --- C++ ---
+*.exe
+*.out
+*.o
+cpp/bin/
+cpp/test/
+
+# --- Editor / IDE ---
+.vscode/
+.idea/
+*.swp
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Input files ---
+*/input.txt
