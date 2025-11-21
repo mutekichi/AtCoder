@@ -1,0 +1,148 @@
+#include <iostream>
+#include <stdio.h>
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include <functional>
+#include <numeric>
+#include <map>
+#include <set>
+#include <list>
+#include <queue>
+#include <stack>
+#include <deque>
+#include <bitset>
+#include <utility>
+#include <complex>
+#include <climits>
+#include <cfloat>
+#include <ctime>
+#include <iomanip>
+#include <cstdlib>
+#include <assert.h>
+
+using namespace std;
+
+class debug_cout
+{
+public:
+    debug_cout(bool debug) : debug(debug) {}
+
+    template <typename T>
+    debug_cout &operator<<(const T &value)
+    {
+        if (debug)
+        {
+            cout << value;
+        }
+        return *this;
+    }
+
+    debug_cout &operator<<(std::ostream &(*manip)(std::ostream &))
+    {
+        if (debug)
+        {
+            manip(std::cout);
+        }
+        return *this;
+    }
+
+    void incr()
+    {
+        if (debug)
+        {
+            debug_loop_counter++;
+            if (debug_loop_counter >= MAX_DEBUG_LOOPS)
+            {
+                std::cout << "Debug exit: Loop limit (" << MAX_DEBUG_LOOPS << ") reached." << std::endl;
+                exit(0);
+            }
+        }
+    }
+
+private:
+    bool debug;
+    int debug_loop_counter = 0;
+    const int MAX_DEBUG_LOOPS = 10;
+};
+
+debug_cout dbgcout(true);
+
+template <typename T>
+void output_vector(vector<T> v, bool debug)
+{
+    for (int i = 0; i < v.size(); i++)
+    {
+        if (debug)
+        {
+            dbgcout << v[i] << " ";
+        }
+        else
+        {
+            cout << v[i] << " ";
+        }
+    }
+    if (debug)
+    {
+        dbgcout << endl;
+    }
+    else
+    {
+        cout << endl;
+    }
+}
+
+// a^n
+int pow(int a, int n)
+{
+    if (n == 0)
+        return 1;
+    else
+        return a * pow(a, n - 1);
+}
+
+int main()
+{
+    int x;
+    cin >> x;
+    vector<int> nonzeros;
+    int n_zeros = 0;
+    int keta = 0;
+
+    while (x > 0)
+    {
+        int l = x % 10;
+        if (l != 0)
+        {
+            nonzeros.push_back(l);
+        }
+        else
+        {
+            n_zeros++;
+        }
+        x /= 10;
+        keta += 1;
+    }
+
+    sort(nonzeros.begin(), nonzeros.end());
+
+    int ans = 0;
+    ans += nonzeros[0] * pow(10, keta - 1);
+
+    for (int i = 1; i < nonzeros.size(); ++i)
+    {
+        ans += nonzeros[i] * pow(10, keta - 1 - i - n_zeros);
+    }
+
+    int a, b;
+    a = 1;
+    b = 2;
+    swap(a, b);
+    cou << 
+
+    cout << ans << endl;
+
+    return 0;
+}
